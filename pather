@@ -1,0 +1,24 @@
+#!/usr/bin/env php
+<?php
+
+
+if (!isset($argv[1]) || !isset($argv[2])) {
+    throw new Exception('Not enough arguments');
+}
+
+require(dirname(__FILE__) . '/src/Pather.php');
+require(dirname(__FILE__) . '/src/PathFinder.php');
+require(dirname(__FILE__) . '/src/Map.php');
+
+$input = dirname(__FILE__) . '/' . $argv[1];
+$output = dirname(__FILE__) . '/' . $argv[2];
+
+$pather = new Pather($input, $output);
+$mapArray = $pather->fileToArray();
+
+$map = new Map($mapArray);
+
+$pathfinder = new PathFinder($map);
+$newMap = $pathfinder->drawPath();
+
+$pather->output($newMap);
